@@ -34,7 +34,7 @@ export default function Projects() {
   }, []);
 
   return (
-    <section id="projects" className="py-24 bg-[#0a192f] text-white">
+    <section id="projects" className="py-16 md:py-20 bg-[#0a192f] text-white">
       <div className="container mx-auto px-6">
         {/* Centered header with lines */}
         <motion.div

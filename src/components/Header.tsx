@@ -24,8 +24,13 @@ export default function Header() {
   return (
     <header className="w-full bg-[#0a192f]/90 backdrop-blur-md fixed top-0 left-0 z-50 border-b border-[#112240]">
       <nav className="container mx-auto flex items-center justify-between py-4 px-6 md:py-5">
-        {/* Logo */}
-        <div className="flex items-center">
+        {/* Logo (refresh on click) */}
+        <button
+          type="button"
+          aria-label="Refresh page"
+          onClick={() => window.location.reload()}
+          className="flex items-center cursor-pointer"
+        >
           <Image
             src="https://edbert-ocampo.vercel.app/assets/eo_logo-DxAxFzvo.png"
             alt="Edbert Ocampo Logo"
@@ -33,7 +38,7 @@ export default function Header() {
             height={40}
             priority
           />
-        </div>
+        </button>
 
         {/* Desktop Links */}
         <ul className="hidden md:flex gap-8 text-sm uppercase tracking-wide font-medium">

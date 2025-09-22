@@ -121,7 +121,7 @@ export default function Experience() {
   }, []);
 
   return (
-    <section id="experience" className="py-24 bg-[#0a192f]">
+    <section id="experience" className="py-16 md:py-20 bg-[#0a192f]">
       <div className="container mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -129,7 +129,7 @@ export default function Experience() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="flex items-center justify-center max-w-6xl mx-auto mb-16 gap-4"
+          className="flex items-center justify-center max-w-6xl mx-auto mb-10 md:mb-12 gap-4"
         >
           <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
           <h2 className="text-4xl md:text-5xl font-bold text-[#ccd6f6] text-center">My Journey</h2>
@@ -137,7 +137,7 @@ export default function Experience() {
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-8 md:mb-10">
           <div className="inline-flex rounded-lg border border-[#112240] p-1 bg-[#112240]">
             <button
               onClick={() => setActiveTab('academic')}

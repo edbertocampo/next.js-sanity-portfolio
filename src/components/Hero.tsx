@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { getHeroData, urlFor } from "@/lib/sanity";
 import { sanityMockData } from "@/lib/sanityMockData";
+import BytesToText from "./BytesToText";
 
 interface HeroType {
   intro: string;
@@ -47,8 +48,9 @@ export default function Hero() {
         .replace(/-pdf$/, ".pdf")}`
     : "https://edbert-ocampo.vercel.app/Ocampo%20Edbert%20Resume.pdf"; // fallback mock
 
+
   return (
-    <section className="min-h-screen pt-32 pb-20 bg-[#0a192f] flex flex-col md:flex-row items-center px-6 md:px-24">
+    <section className="min-h-screen pt-28 pb-12 md:pt-32 md:pb-16 bg-[#0a192f] flex flex-col md:flex-row items-center px-6 md:px-24">
       {/* Left: Text */}
       <motion.div
         className="md:w-1/2 flex flex-col items-start text-left"
@@ -57,15 +59,19 @@ export default function Hero() {
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
       >
-        <p className="text-[#64ffda] font-inter mb-2">{hero.intro}</p>
+        <p className="text-[#64ffda] font-inter mb-2">
+          <BytesToText text={hero.intro} delay={0} speed={18} />
+        </p>
         <h1 className="text-5xl md:text-7xl font-bold mb-4 leading-tight">
-          <span className="font-roboto-mono text-[#64ffda]">{hero.highlightName}</span>.
+          <span className="font-roboto-mono text-[#64ffda]">
+            <BytesToText text={hero.highlightName} delay={200} speed={16} nowrap />
+          </span>.
         </h1>
         <h2 className="text-3xl md:text-5xl font-bold text-[#ccd6f6] mb-6 leading-snug">
-          {hero.headline}
+          <BytesToText text={hero.headline} delay={350} speed={14} />
         </h2>
-        <p className="text-md md:text-lg text-[#8892b0] max-w-xl mb-8 leading-relaxed font-inter">
-          {hero.description}
+        <p className="text-md md:text-lg text-[#8892b0] max-w-3xl md:max-w-2xl mb-8 leading-relaxed font-inter">
+          <BytesToText text={hero.description} delay={550} speed={12} asString />
         </p>
 
         {/* Download Resume Button */}

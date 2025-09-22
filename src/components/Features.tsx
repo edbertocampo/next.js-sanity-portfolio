@@ -51,34 +51,39 @@ export default function Features() {
   }
 
   return (
-    <section id="about" className="py-24 bg-[#0a192f]">
+    <section id="about" className="py-16 md:py-20 bg-[#0a192f]">
       <div className="container mx-auto px-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
-        className="flex items-center justify-between max-w-6xl mx-auto mb-12 gap-4"
+        className="hidden md:flex md:flex-row items-start md:items-center justify-between max-w-6xl mx-auto mb-12 gap-6"
       >
         {/* Left Header */}
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#ccd6f6] truncate">
+        <div className="flex items-center gap-4 w-full">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#ccd6f6]">
             About Me
           </h1>
-          <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
+          <span className="hidden md:block flex-1 h-[1px] bg-[#64ffda]/30"></span>
         </div>
 
         {/* Right Header */}
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#ccd6f6] truncate">
+        <div className="flex items-center gap-4 w-full">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#ccd6f6]">
             Skills
           </h1>
-          <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
+          <span className="hidden md:block flex-1 h-[1px] bg-[#64ffda]/30"></span>
         </div>
       </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Left: About Me */}
+          {/* Mobile header: About Me */}
+          <div className="flex md:hidden items-center gap-4 mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#ccd6f6]">About Me</h2>
+            <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
+          </div>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -90,6 +95,11 @@ export default function Features() {
           </motion.div>
 
           {/* Right: Skills / Features */}
+          {/* Mobile header: Skills */}
+          <div className="flex md:hidden items-center gap-4 mt-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#ccd6f6]">Skills</h2>
+            <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {featureSection.features?.map((feature: FeatureItem, idx: number) => (
               <motion.div
