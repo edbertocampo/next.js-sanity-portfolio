@@ -2,9 +2,7 @@
 
 A sample personal portfolio website showcasing projects, skills, experience, and a downloadable resume. Built with [Next.js](https://nextjs.org) and [Sanity CMS](https://www.sanity.io).
 
-<p align="center">
   ![NextJsSanityPortfolioSample](https://github.com/edbertocampo/next.js-sanity-portfolio/raw/main/public/NextJsSanityPortfolioSample.gif)
-</p>
 
 ---
 
@@ -107,3 +105,22 @@ For detailed instructions, refer to the [Next.js deployment documentation](https
 © 2025 Edbert Ocampo. All rights reserved. Crafted with love, passion and innovation. ᓚᘏᗢ
 
 Made with ❤ by Edbert Ocampo (●'◡'●)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
