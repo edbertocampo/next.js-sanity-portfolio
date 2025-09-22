@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getExperienceData, getAcademicData } from "@/lib/sanity";
+import { sanityMockData } from "@/lib/sanityMockData";
 
 interface ExperienceItem {
   title: string;
@@ -24,17 +25,63 @@ interface AcademicItem {
 
 export default function Experience() {
   const [activeTab, setActiveTab] = useState<'academic' | 'professional'>('professional');
-  const [experience, setExperience] = useState<ExperienceItem[]>([]);
-  const [academic, setAcademic] = useState<AcademicItem[]>([]);
 
-  // Fetch Sanity data
+  // Map mock data to schema-compatible structure
+  const mappedMockExperience: ExperienceItem[] = sanityMockData.experience.map(item => ({
+    title: item.title,
+    company: item.company,
+    startDate: item.period.split(' - ')[0] || '', // extract start year/date from period
+    endDate: item.period.split(' - ')[1] || undefined, // extract end year/date from period
+    ongoing: item.period.toLowerCase().includes('present'),
+    description: item.description,
+  }));
+
+  const mappedMockAcademic: AcademicItem[] = sanityMockData.academic.map(item => ({
+    title: item.title,
+    institution: item.institution,
+    startDate: item.period.split(' - ')[0] || '',
+    endDate: item.period.split(' - ')[1] || undefined,
+    ongoing: item.period.toLowerCase().includes('present'),
+    description: item.description,
+  }));
+
+  const [experience, setExperience] = useState<ExperienceItem[]>(mappedMockExperience);
+  const [academic, setAcademic] = useState<AcademicItem[]>(mappedMockAcademic);
+
+  // Fetch Sanity data and map to correct structure
   useEffect(() => {
     async function fetchData() {
-      const expData = await getExperienceData();
-      if (expData) setExperience(expData);
+      try {
+        const expData = await getExperienceData();
+        if (expData && expData.length > 0) {
+          setExperience(
+            expData.map((item: any) => ({
+              title: item.title,
+              company: item.company,
+              startDate: item.startDate,
+              endDate: item.endDate,
+              ongoing: item.ongoing || false,
+              description: item.description,
+            }))
+          );
+        }
 
-      const eduData = await getAcademicData();
-      if (eduData) setAcademic(eduData);
+        const eduData = await getAcademicData();
+        if (eduData && eduData.length > 0) {
+          setAcademic(
+            eduData.map((item: any) => ({
+              title: item.title,
+              institution: item.institution,
+              startDate: item.startDate,
+              endDate: item.endDate,
+              ongoing: item.ongoing || false,
+              description: item.description,
+            }))
+          );
+        }
+      } catch (err) {
+        console.error("Error fetching experience/academic:", err);
+      }
     }
 
     fetchData();
@@ -51,19 +98,17 @@ export default function Experience() {
     <section id="experience" className="py-24 bg-[#0a192f]">
       <div className="container mx-auto px-6">
 
-        {/* Centered header with lines */}
+        {/* Header */}
         <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7 }}
-        className="flex items-center justify-center max-w-6xl mx-auto mb-16 gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="flex items-center justify-center max-w-6xl mx-auto mb-16 gap-4"
         >
-        <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
-        <h2 className="text-4xl md:text-5xl font-bold text-[#ccd6f6] text-center">
-          My Journey
-        </h2>
-        <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
+          <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
+          <h2 className="text-4xl md:text-5xl font-bold text-[#ccd6f6] text-center">My Journey</h2>
+          <span className="flex-1 h-[1px] bg-[#64ffda]/30"></span>
         </motion.div>
 
         {/* Tabs */}
@@ -72,9 +117,7 @@ export default function Experience() {
             <button
               onClick={() => setActiveTab('academic')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeTab === 'academic' 
-                  ? 'bg-[#64ffda] text-[#0a192f]'
-                  : 'text-[#8892b0] hover:text-[#64ffda]'
+                activeTab === 'academic' ? 'bg-[#64ffda] text-[#0a192f]' : 'text-[#8892b0] hover:text-[#64ffda]'
               }`}
             >
               Academic
@@ -82,9 +125,7 @@ export default function Experience() {
             <button
               onClick={() => setActiveTab('professional')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
-                activeTab === 'professional'
-                  ? 'bg-[#64ffda] text-[#0a192f]'
-                  : 'text-[#8892b0] hover:text-[#64ffda]'
+                activeTab === 'professional' ? 'bg-[#64ffda] text-[#0a192f]' : 'text-[#8892b0] hover:text-[#64ffda]'
               }`}
             >
               Professional
@@ -92,7 +133,7 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Timeline content */}
+        {/* Timeline */}
         <div className="max-w-4xl mx-auto">
           {activeTab === 'professional' ? (
             experience.map((exp, idx) => (
