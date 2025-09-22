@@ -23,35 +23,30 @@ interface AcademicItem {
   description: string;
 }
 
+// Helper to convert period string (mock data) to structured start/end/ongoing
+const mapPeriodToDates = (period: string) => {
+  const [start, end] = period.split(' - ');
+  const ongoing = period.toLowerCase().includes('present');
+  return { startDate: start, endDate: ongoing ? undefined : end, ongoing };
+};
+
+// Helper to format period with month + year
+const formatPeriod = (startDate: string, endDate?: string, ongoing?: boolean) => {
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short' };
+  const startStr = startDate ? new Date(startDate).toLocaleString('en-US', options) : '';
+  const endStr = ongoing ? 'Present' : endDate ? new Date(endDate).toLocaleString('en-US', options) : '';
+  return `${startStr} - ${endStr}`;
+};
+
 export default function Experience() {
   const [activeTab, setActiveTab] = useState<'academic' | 'professional'>('professional');
+  const [experience, setExperience] = useState<ExperienceItem[]>([]);
+  const [academic, setAcademic] = useState<AcademicItem[]>([]);
 
-  // Map mock data to schema-compatible structure
-  const mappedMockExperience: ExperienceItem[] = sanityMockData.experience.map(item => ({
-    title: item.title,
-    company: item.company,
-    startDate: item.period.split(' - ')[0] || '', // extract start year/date from period
-    endDate: item.period.split(' - ')[1] || undefined, // extract end year/date from period
-    ongoing: item.period.toLowerCase().includes('present'),
-    description: item.description,
-  }));
-
-  const mappedMockAcademic: AcademicItem[] = sanityMockData.academic.map(item => ({
-    title: item.title,
-    institution: item.institution,
-    startDate: item.period.split(' - ')[0] || '',
-    endDate: item.period.split(' - ')[1] || undefined,
-    ongoing: item.period.toLowerCase().includes('present'),
-    description: item.description,
-  }));
-
-  const [experience, setExperience] = useState<ExperienceItem[]>(mappedMockExperience);
-  const [academic, setAcademic] = useState<AcademicItem[]>(mappedMockAcademic);
-
-  // Fetch Sanity data and map to correct structure
   useEffect(() => {
     async function fetchData() {
       try {
+        // Fetch CMS experience
         const expData = await getExperienceData();
         if (expData && expData.length > 0) {
           setExperience(
@@ -64,8 +59,19 @@ export default function Experience() {
               description: item.description,
             }))
           );
+        } else {
+          // fallback to mock
+          setExperience(
+            sanityMockData.experience.map(item => ({
+              title: item.title,
+              company: item.company,
+              ...mapPeriodToDates(item.period),
+              description: item.description,
+            }))
+          );
         }
 
+        // Fetch CMS academic
         const eduData = await getAcademicData();
         if (eduData && eduData.length > 0) {
           setAcademic(
@@ -78,26 +84,45 @@ export default function Experience() {
               description: item.description,
             }))
           );
+        } else {
+          // fallback to mock
+          setAcademic(
+            sanityMockData.academic.map(item => ({
+              title: item.title,
+              institution: item.institution,
+              ...mapPeriodToDates(item.period),
+              description: item.description,
+            }))
+          );
         }
       } catch (err) {
         console.error("Error fetching experience/academic:", err);
+        // On fetch error fallback to mock
+        setExperience(
+          sanityMockData.experience.map(item => ({
+            title: item.title,
+            company: item.company,
+            ...mapPeriodToDates(item.period),
+            description: item.description,
+          }))
+        );
+        setAcademic(
+          sanityMockData.academic.map(item => ({
+            title: item.title,
+            institution: item.institution,
+            ...mapPeriodToDates(item.period),
+            description: item.description,
+          }))
+        );
       }
     }
 
     fetchData();
   }, []);
 
-  // Helper to format period
-  const formatPeriod = (startDate: string, endDate?: string, ongoing?: boolean) => {
-    const startYear = startDate ? new Date(startDate).getFullYear() : '';
-    const endYear = ongoing ? 'Present' : endDate ? new Date(endDate).getFullYear() : '';
-    return `${startYear} - ${endYear}`;
-  };
-
   return (
     <section id="experience" className="py-24 bg-[#0a192f]">
       <div className="container mx-auto px-6">
-
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
