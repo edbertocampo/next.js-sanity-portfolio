@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
         source: "/studio",
         destination: "/studio/index.html", // 👈 ensures /studio works
       },
+      {
+        source: "/static/:path*",
+        destination: "/studio/static/:path*", // 👈 map Studio asset paths
+      },
     ];
   },
 };
