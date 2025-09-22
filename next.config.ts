@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: [
       "edbert-ocampo.vercel.app",
-      "cdn.sanity.io", // 👈 allow Sanity CDN images
+      "cdn.sanity.io",
     ],
     remotePatterns: [
       {
@@ -14,18 +14,24 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "cdn.sanity.io", // 👈 Sanity CDN
-        pathname: "/images/**",   // Sanity serves images under /images/
+        hostname: "cdn.sanity.io",
+        pathname: "/images/**",
       },
     ],
   },
   eslint: {
-    // ✅ Allow builds even if ESLint has errors
     ignoreDuringBuilds: true,
   },
   typescript: {
-    // ✅ Allow builds even if TS has type errors
     ignoreBuildErrors: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/studio",
+        destination: "/studio/index.html", // 👈 ensures /studio works
+      },
+    ];
   },
 };
 

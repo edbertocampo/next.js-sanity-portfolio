@@ -11,7 +11,6 @@ import {
   footerSchema 
 } from './src/lib/sanitySchemas'
 
-// ✅ Use SANITY_STUDIO_* with import.meta.env in Studio
 const projectId = import.meta.env.SANITY_STUDIO_PROJECT_ID as string | undefined
 const dataset = import.meta.env.SANITY_STUDIO_DATASET || 'production'
 
@@ -28,6 +27,7 @@ export default defineConfig({
   title: 'Edbert Ocampo Portfolio',
   projectId,
   dataset,
+  basePath: '/studio',   // 👈 ADD THIS
   plugins: [structureTool(), visionTool()],
   schema: {
     types: [

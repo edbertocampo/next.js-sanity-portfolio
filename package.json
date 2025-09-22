@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "build:next": "next build",
-    "build:sanity": "cd .sanity && sanity build", 
-    "start:next": "next start"
+    "build:sanity": "sanity build public/studio", 
+    "start:next": "next start",
+    "vercel-build": "npm run build:sanity && npm run build:next" 
   },
   "dependencies": {
     "@sanity/client": "^7.11.2",
