@@ -17,8 +17,11 @@ export function middleware(request: Request) {
   if (scheme !== "Basic" || !encoded) return unauthorized();
 
   try {
-    const decoded = Buffer.from(encoded, "base64").toString();
-    const [username, password] = decoded.split(":");
+    // Use web-standard base64 decoder available in Edge runtime
+    const decoded = globalThis.atob(encoded);
+    const separatorIndex = decoded.indexOf(":");
+    const username = decoded.slice(0, separatorIndex);
+    const password = decoded.slice(separatorIndex + 1);
     if (username === user && password === pass) {
       return NextResponse.next();
     }
