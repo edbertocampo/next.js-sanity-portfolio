@@ -1,21 +1,38 @@
-```md
 # Edbert Ocampo Portfolio
 
-A personal portfolio website showcasing projects, skills, experience, and a downloadable resume. Built with [Next.js](https://nextjs.org) and [Sanity CMS](https://www.sanity.io).
+A sample personal portfolio website showcasing projects, skills, experience, and a downloadable resume. Built with [Next.js](https://nextjs.org) and [Sanity CMS](https://www.sanity.io).
+
+<p align="center">
+  ![NextJsSanityPortfolioSample](https://github.com/edbertocampo/next.js-sanity-portfolio/raw/main/public/NextJsSanityPortfolioSample.gif)
+</p>
+
+---
+
+## Live Demo
+
+Explore the live site: [https://sample-edbertocampo.vercel.app/](https://sample-edbertocampo.vercel.app/)
+
+View the source code: [https://github.com/edbertocampo/next.js-sanity-portfolio](https://github.com/edbertocampo/next.js-sanity-portfolio)
 
 ---
 
 ## Getting Started
 
-Follow these steps to set up the project locally:
+Embark on your journey to set up this unique portfolio project locally with these steps:
 
 ### 1. Clone the Repository
+
+Clone the repository using the following command:
+
 ```bash
-git clone <your-repo-url>
-cd <your-repo-folder>
+git clone https://github.com/edbertocampo/next.js-sanity-portfolio.git
+cd next.js-sanity-portfolio
 ```
 
 ### 2. Install Dependencies
+
+Run one of the following commands to install the dependencies:
+
 ```bash
 npm install
 # or
@@ -25,6 +42,7 @@ pnpm install
 ```
 
 ### 3. Set Up Environment Variables
+
 Create a `.env.local` file in the project root and add the following:
 
 ```bash
@@ -35,6 +53,9 @@ NEXT_PUBLIC_SANITY_DATASET=production
 > **Note**: A token is not required for public read-only content.
 
 ### 4. Run the Development Server
+
+Start the development server with one of the following commands:
+
 ```bash
 npm run dev
 # or
@@ -49,28 +70,28 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to view the 
 
 ## Project Structure
 
-- **`app/`**: Contains Next.js pages, components, and layout.
-- **`components/`**: Reusable React components (e.g., Hero, Header, Projects).
-- **`lib/sanity.ts`**: Sanity client configuration and helper functions.
-- **`sanityMockData.ts`**: Mock data for local development fallback.
-- **`public/`**: Static assets like images, favicon, and resume PDF.
+- **`app/`**: Houses Next.js pages, components, and layout for a seamless experience.
+- **`components/`**: Reusable React components (e.g., Hero, Header, Projects) crafted with care.
+- **`lib/sanity.ts`**: Sanity client configuration and helper functions for robust integration.
+- **`sanityMockData.ts`**: Mock data for local development fallback, ensuring smooth testing.
+- **`public/`**: Static assets like images, favicon, and resume PDF, adding a personal touch.
 
 ---
 
 ## Fonts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to optimize and load the [Geist](https://vercel.com/font) font family.
+This project leverages [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to optimize and load the elegant [Geist](https://vercel.com/font) font family.
 
 ---
 
 ## Deployment
 
-Deploy the app effortlessly on [Vercel](https://vercel.com/new):
+Deploy this distinctive portfolio effortlessly on [Vercel](https://vercel.com/new):
 
 1. Push your code to a Git repository (e.g., GitHub, GitLab).
 2. Connect the repository to Vercel.
 3. Configure the same environment variables in Vercel's dashboard.
-4. Deploy and access your portfolio online.
+4. Deploy and share your unique online presence.
 
 For detailed instructions, refer to the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying).
 
@@ -83,5 +104,6 @@ For detailed instructions, refer to the [Next.js deployment documentation](https
 
 ---
 
-Made with ❤️ by Edbert Ocampo
-```
+© 2025 Edbert Ocampo. All rights reserved. Crafted with love, passion and innovation. ᓚᘏᗢ
+
+Made with ❤ by Edbert Ocampo (●'◡'●)
