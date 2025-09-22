@@ -1,24 +1,23 @@
 import { createClient } from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 
-// Get project config from env vars
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || process.env.VITE_SANITY_PROJECT_ID
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || process.env.VITE_SANITY_DATASET || 'production'
+// ✅ Only use NEXT_PUBLIC env vars for Next.js runtime
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
 
-// Check if we have a real Sanity project configured
-const hasRealProject = projectId && projectId !== 'your-project-id'
+const hasRealProject = !!projectId && projectId !== 'your-project-id'
 
-// Initialize client only if project is set
-export const client = hasRealProject ? createClient({
-  projectId,
-  dataset,
-  useCdn: false, // always fetch latest data in dev
-  apiVersion: '2025-09-21' // stable API version
-}) : null
+export const client = hasRealProject
+  ? createClient({
+      projectId,
+      dataset,
+      useCdn: true, // ✅ use CDN for production, false if you want drafts
+      apiVersion: '2025-09-21',
+    })
+  : null
 
 const builder = client ? imageUrlBuilder(client) : null
 
-// Utility for image URLs
 export function urlFor(source: any) {
   return builder ? builder.image(source) : null
 }
@@ -26,7 +25,7 @@ export function urlFor(source: any) {
 // Portfolio
 export async function getPortfolioData() {
   if (!client) return null
-  const query = `*[_type == "portfolio"] | order(_updatedAt desc)[0] {
+  const query = `*[_type == "portfolio"] | order(_updatedAt desc)[0]{
     hero,
     features,
     experience,
@@ -35,7 +34,7 @@ export async function getPortfolioData() {
     testimonials,
     footer
   }`
-  return await client.fetch(query)
+  return client.fetch(query)
 }
 
 // Hero
@@ -48,45 +47,52 @@ export async function getHeroData() {
     description,
     cta,
     image,
-    resumeFile // include file field
+    resumeFile
   }`
-  return await client.fetch(query)
+  return client.fetch(query)
 }
 
-// Features / About Me
+// Features
 export async function getFeaturesData() {
   if (!client) return null
-  const query = `*[_type == "featureSection"] | order(_updatedAt desc)[0] {
+  const query = `*[_type == "featureSection"] | order(_updatedAt desc)[0]{
     aboutMe,
     features[]{
       title,
       icon,
-      technologies[] // fetch each tech as separate string
+      technologies[]
     }
   }`
-  return await client.fetch(query)
+  return client.fetch(query)
 }
 
 // Projects
 export async function getProjectsData() {
   if (!client) return null
-  return await client.fetch(`*[_type == "project"] | order(_createdAt asc)`)
+  return client.fetch(`*[_type == "project"] | order(_createdAt asc){
+    title,
+    description,
+    technologies,
+    github,
+    demo,
+    image
+  }`)
 }
 
 // Experience
 export async function getExperienceData() {
   if (!client) return null
-  return await client.fetch(`*[_type == "experience"] | order(startDate desc)`)
+  return client.fetch(`*[_type == "experience"] | order(startDate desc)`)
 }
 
 // Academic
 export async function getAcademicData() {
   if (!client) return null
-  return await client.fetch(`*[_type == "academic"] | order(startDate desc)`)
+  return client.fetch(`*[_type == "academic"] | order(startDate desc)`)
 }
 
 // Footer
 export async function getFooterData() {
   if (!client) return null
-  return await client.fetch(`*[_type == "footer"] | order(_updatedAt desc)[0]`)
+  return client.fetch(`*[_type == "footer"] | order(_updatedAt desc)[0]`)
 }
