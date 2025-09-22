@@ -27,9 +27,10 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
+      // Serve the statically built Sanity Studio at /studio
       {
         source: "/studio",
-        destination: "/studio/index.html", // 👈 ensures /studio works
+        destination: "/studio/index.html",
       },
       {
         source: "/static/:path*",
